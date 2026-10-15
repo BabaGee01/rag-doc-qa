@@ -1,0 +1,42 @@
+# Checkov risk-acceptance register. Every skip is a deliberate, documented decision;
+# rationale and compensating controls are in docs/SECURITY.md#risk-acceptance-register.
+framework:
+  - terraform
+  - dockerfile
+  - github_actions
+skip-check:
+  # --- False positives ---
+  - CKV_AWS_109  # KMS key policies must use Resource "*" (the key itself)
+  - CKV_AWS_111  # as above
+  - CKV_AWS_356  # as above
+  - CKV_AWS_260  # ALB ingress is the CloudFront managed prefix list, not 0.0.0.0/0
+  - CKV2_AWS_3   # GuardDuty is enabled; check expects an AWS Organizations delegated admin
+  # --- TLS at the edge, private hop to an internal ALB (RA-01) ---
+  - CKV_AWS_2
+  - CKV_AWS_103
+  - CKV_AWS_378
+  - CKV2_AWS_20
+  # --- No custom domain in demo: default *.cloudfront.net certificate (RA-02) ---
+  - CKV_AWS_174
+  - CKV2_AWS_42
+  # --- Demo-mode teardown and single-region scope (RA-03) ---
+  - CKV_AWS_150  # ALB deletion protection
+  - CKV_AWS_144  # S3 cross-region replication
+  - CKV_AWS_310  # CloudFront origin failover
+  # --- Logging alternatives already in place (RA-04) ---
+  - CKV_AWS_86   # CloudFront access logs: WAF logs every request
+  - CKV_AWS_18   # S3 server access logs: CloudTrail + Config cover bucket activity
+  - CKV2_AWS_62  # S3 event notifications
+  - CKV_AWS_252  # CloudTrail per-file SNS notifications (noise; CIS alarms used instead)
+  - CKV_AWS_145  # Config/ALB log buckets use SSE-S3 (ALB log delivery requires it)
+  # --- Lambda hardening not applicable or tracked as follow-up (RA-05) ---
+  - CKV_AWS_117  # Lambdas call only AWS APIs; VPC placement adds NAT dependency, no isolation gain
+  - CKV_AWS_115  # reserved concurrency: new accounts have a 10-concurrency floor
+  - CKV_AWS_116  # report Lambda: weekly, idempotent; containment Lambda has a DLQ via EventBridge
+  - CKV_AWS_173  # no secrets in Lambda environment variables
+  - CKV_AWS_272  # code signing: follow-up (AWS Signer)
+  - CKV_AWS_297  # scheduler payload is empty
+  # --- Other ---
+  - CKV_AWS_374  # geo restriction: public portfolio demo, global audience
+  - CKV_AWS_305  # default root object: dynamic origin serves /
+  - CKV_AWS_394  # AZ pinning: two AZs selected by index

@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.env
+# Terraform
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.*
+infra/terraform.tfvars
+infra/.terraform.tfstate.lock.info
+infra/**/.terraform/
+infra/**/.build/
+infra/**/terraform.tfvars
+infra/**/*.tfstate
+infra/**/*.tfstate.*
+.claude/

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG Doc Q&amp;A</title>
+<meta name="description" content="Ask questions about your documents and get answers with verifiable citations. Built with Claude, FastAPI and AWS.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234f46e5'/><path d='M9 8h10l4 4v12H9z' fill='white'/><path d='M12 15h8M12 19h6' stroke='%234f46e5' stroke-width='2'/></svg>">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">Q</div>
+      <div>
+        <h1>RAG Doc Q&amp;A</h1>
+        <p class="tagline">Ask questions about your documents. Every answer cites its source.</p>
+      </div>
+    </div>
+    <div class="stack">
+      <span class="pill">Claude Opus 5</span><span class="pill">FastAPI</span><span class="pill">bge-small embeddings</span>
+      <span class="pill">ECS Fargate</span><span class="pill">Terraform</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <aside class="card side">
+      <section>
+        <h2>Loaded documents</h2>
+        <ul class="docs" id="docs"><li>Loading...</li></ul>
+      </section>
+      <section>
+        <h2>Add your own</h2>
+        <label class="drop" id="drop">
+          <input type="file" id="file" accept=".pdf,.txt,.md">
+          <div id="dropText"><strong>Drop a file</strong> or click to upload<br>PDF, TXT or MD, up to 5 MB</div>
+        </label>
+        <p class="tagline note">Uploads are private to your browser session and are discarded after an hour.</p>
+      </section>
+      <section class="how">
+        <h2>How it works</h2>
+        <ol>
+          <li>Documents are split into overlapping chunks and embedded locally.</li>
+          <li>Your question is embedded and matched by cosine similarity.</li>
+          <li>The best chunks go to Claude as citable documents.</li>
+          <li>Claude answers only from those chunks, citing exact passages.</li>
+        </ol>
+      </section>
+    </aside>
+
+    <main class="card chat">
+      <div class="messages" id="messages">
+        <div class="msg bot">
+          <div class="answer">Hi! I've loaded a sample on-call handbook for a fictional company. Ask me anything about it, or upload your own document.</div>
+          <div class="suggest first" id="suggest">
+            <button>What do I do if a pod is OOMKilled?</button>
+            <button>How quickly must a SEV1 be acknowledged?</button>
+            <button>What's the on-call stipend in Toronto?</button>
+            <button>What's the company's parental leave policy?</button>
+          </div>
+        </div>
+      </div>
+      <form id="form">
+        <textarea id="q" rows="1" maxlength="1000" placeholder="Ask a question about the documents..." required></textarea>
+        <button class="send" id="send" type="submit">Ask</button>
+      </form>
+    </main>
+  </div>
+  <footer>Open source: architecture, Terraform and CI/CD in the <a href="https://github.com/" id="repoLink">GitHub repo</a>.</footer>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

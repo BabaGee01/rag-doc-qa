@@ -1,0 +1,5 @@
+# Enable keyless GitHub Actions deploys (owner/repo):
+# github_repository = "BabaGee01/rag-doc-qa"
+
+# Rehearse incident response without stopping tasks:
+# auto_containment_enabled = false
