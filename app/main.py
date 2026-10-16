@@ -161,7 +161,7 @@ def create_app(embedder: Embedder | None = None, claude: anthropic.Anthropic | N
         except ValueError:
             raise HTTPException(400, "Missing or invalid X-Session-Id header.") from None
 
-    @app.get("/healthz")
+    @app.api_route("/healthz", methods=["GET", "HEAD"])
     def healthz() -> dict:
         return {"status": "ok", "model": MODEL}
 
@@ -216,7 +216,7 @@ def create_app(embedder: Embedder | None = None, claude: anthropic.Anthropic | N
 
     app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
-    @app.get("/", include_in_schema=False)
+    @app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
     def index_page() -> FileResponse:
         return FileResponse(BASE_DIR / "static" / "index.html")
 

@@ -12,6 +12,11 @@ def test_healthz(client):
     assert client.get("/healthz").json()["status"] == "ok"
 
 
+def test_head_requests_for_uptime_monitors(client):
+    assert client.head("/").status_code == 200
+    assert client.head("/healthz").status_code == 200
+
+
 def test_index_page_served(client):
     res = client.get("/")
     assert res.status_code == 200
