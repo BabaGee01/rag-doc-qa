@@ -121,6 +121,8 @@ resource "aws_config_configuration_recorder_status" "this" {
 }
 
 # Organisation policy rules owned by this team (Security Hub adds its own control rules on top).
+# CloudFront rules exist only in us-east-1 (global service); CloudFront WAF/HTTPS settings are
+# enforced in Terraform and checked by Checkov in CI instead (docs/SECURITY.md RA-07).
 locals {
   config_rules = {
     root-account-mfa-enabled         = { source = "ROOT_ACCOUNT_MFA_ENABLED", params = null }
@@ -135,8 +137,6 @@ locals {
     ecs-containers-readonly-access   = { source = "ECS_CONTAINERS_READONLY_ACCESS", params = null }
     ecs-containers-nonprivileged     = { source = "ECS_CONTAINERS_NONPRIVILEGED", params = null }
     ecr-tag-immutability-enabled     = { source = "ECR_PRIVATE_TAG_IMMUTABILITY_ENABLED", params = null }
-    cloudfront-associated-with-waf   = { source = "CLOUDFRONT_ASSOCIATED_WITH_WAF", params = null }
-    cloudfront-viewer-policy-https   = { source = "CLOUDFRONT_VIEWER_POLICY_HTTPS", params = null }
     required-tags = {
       source = "REQUIRED_TAGS"
       params = { tag1Key = "Project", tag2Key = "ManagedBy" }
