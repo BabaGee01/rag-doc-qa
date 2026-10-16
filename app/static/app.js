@@ -34,12 +34,18 @@ async function loadDocs() {
 
 function scrollDown() { const m = $("messages"); m.scrollTop = m.scrollHeight; }
 
+// Render **bold** as <strong> using DOM nodes only (never innerHTML), so model output can't inject markup.
+function formatText(text) {
+  return text.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+    i % 2 ? el("strong", "", part) : document.createTextNode(part));
+}
+
 function renderAnswer(data) {
   const n = ++answerCount;
   const wrap = el("div", "msg bot");
   const answer = el("div", "answer");
   for (const seg of data.segments) {
-    answer.append(document.createTextNode(seg.text));
+    answer.append(...formatText(seg.text));
     for (const id of seg.citations) {
       const sup = el("sup", "c", `[${id}]`);
       sup.title = "Jump to source";
