@@ -21,7 +21,10 @@ env:
 
 jobs:
   deploy:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    # Opt-in: set the repository variable DEPLOY_ENABLED=true once AWS_DEPLOY_ROLE_ARN is configured.
+    if: >-
+      vars.DEPLOY_ENABLED == 'true' &&
+      (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     environment: production
     steps:
