@@ -37,4 +37,9 @@ tested is only a hope.
 
 | Date | Exercise | Result |
 |---|---|---|
-| _fill in after first deploy_ | Full rebuild from empty account | _minutes_ |
+| 2026-10-16 | Security baseline deployed from code (110 resources) | ~5 min |
+| 2026-10-16 | Application stack deployed from code (68 resources) | 15 min |
+| 2026-10-16 | Zero-downtime releases with circuit breaker (×2) | ~4 min each, no failed requests |
+| 2026-10-16 | Incident-response drill (`make ir-drill`), GuardDuty crypto-mining simulation | Forensic snapshot + alert in seconds |
+| 2026-10-16 | WAF rate-limit attack simulation (350 requests) | Blocked within ~20 s, 0 requests reached the app |
+| 2026-10-16 | Full teardown (181 resources), zero leftovers verified | 18 min |
