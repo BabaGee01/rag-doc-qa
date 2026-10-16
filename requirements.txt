@@ -1,7 +1,7 @@
-anthropic==1.8.0
-fastapi==0.141.1
+anthropic==1.13.0
+fastapi==0.143.0
 uvicorn[standard]==0.54.0
-fastembed==0.8.1
-numpy==2.5.3
-pypdf==6.19.0
+fastembed==0.9.0
+numpy==2.5.4
+pypdf==6.20.1
 python-multipart==0.0.32
